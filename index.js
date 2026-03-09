@@ -23,25 +23,25 @@ if (!values.input) {
   process.exit(1);
 }
 
-const data = readFile(values.input);
-const filteredData = data.filter((line) => {
-  const [
-    price,
-    area,
-    bedrooms,
-    bathrooms,
-    stories,
-    mainroad,
-    guestroom,
-    basement,
-    hotwaterheating,
-    airconditioning,
-    parking,
-    prefarea,
-    furnishingstatus,
-  ] = line.split(',').map((item) => item.trim());
-  return parseFloat(price) <= parseFloat(values.price) && values.furnished
-    ? furnishingstatus === 'furnished'
+const data = readFile(values.input); // returns json lines .split('\n') array
+// one line:
+//{"price":"13300000","area":"7420","bedrooms":"4","bathrooms":"2","stories":"3","mainroad":"yes","guestroom":"no","basement":"no","hotwaterheating":"no","airconditioning":"yes","parking":"2","prefarea":"yes","furnishingstatus":"furnished"}
+const filteredData = [];
+for (const line of data) {
+  if (!line.trim()) continue;
+  const obj = JSON.parse(line);
+
+  const withinPrice = parseFloat(obj.price) <= parseFloat(values.price);
+  const furnishedOk = values.furnished
+    ? obj.furnishingstatus === 'furnished'
     : true;
-});
-writeFile(values.output, filteredData);
+
+  if (withinPrice && furnishedOk) {
+    filteredData.push(obj);
+  }
+}
+
+writeFile(
+  values.output,
+  filteredData.map((obj) => JSON.stringify(obj)),
+);
