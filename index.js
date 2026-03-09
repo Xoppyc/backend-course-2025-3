@@ -42,9 +42,9 @@ for (const line of data) {
     const pushedObj = JSON.stringify(obj)
       .replace(/[{}"]/g, '')
       .replace(/,/g, ', ');
-    console.log(`Hose: ${data.indexOf(line) + 1}`);
+    values.display && console.log(`Hose: ${data.indexOf(line) + 1}`);
     filteredData.push(pushedObj);
-    console.log(pushedObj);
+    values.display && console.log(pushedObj);
   }
 }
 
