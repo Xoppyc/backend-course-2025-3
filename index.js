@@ -14,18 +14,24 @@ const options = {
     default: Number.MAX_SAFE_INTEGER.toString(),
   },
 };
-const { values } = parseArgs({ options });
-
+let values;
+try {
+  ({ values } = parseArgs({ options }));
+} catch (error) {
+  console.error(`Error parsing arguments: ${error.message}`);
+  process.exit(1);
+}
 if (!values.input) {
   console.error(
-    'Input file is required. Use -i or --input to specify the input file.',
+    'Input file is required. Use -i or --input to specify the file.',
   );
   process.exit(1);
 }
 
-const data = readFile(values.input); // returns json lines .split('\n') array
-// one line:
-//{"price":"13300000","area":"7420","bedrooms":"4","bathrooms":"2","stories":"3","mainroad":"yes","guestroom":"no","basement":"no","hotwaterheating":"no","airconditioning":"yes","parking":"2","prefarea":"yes","furnishingstatus":"furnished"}
+// readFile returns an array of lines, each line is a JSON string representing a house object
+const data = readFile(values.input);
+// Example line:
+// {"price":"13300000","area":"7420","bedrooms":"4","bathrooms":"2","stories":"3","mainroad":"yes","guestroom":"no","basement":"no","hotwaterheating":"no","airconditioning":"yes","parking":"2","prefarea":"yes","furnishingstatus":"furnished"}
 const filteredData = [];
 for (const line of data) {
   if (!line.trim()) continue;

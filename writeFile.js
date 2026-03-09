@@ -1,5 +1,5 @@
 import fs from 'fs';
 
 export function writeFile(file, content) {
-  fs.writeFileSync(file, content.join('\n'), 'utf-8');
+  fs.writeFileSync(file, content.join('\n').replace(/"/g, ' '), 'utf-8');
 }
