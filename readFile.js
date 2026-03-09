@@ -5,7 +5,7 @@ export function readFile(file) {
   try {
     content = fs.readFileSync(file, 'utf-8').split('\n');
   } catch (error) {
-    console.error(`Error reading file: ${error.message}`);
+    console.error(`Cannot find input file`);
     process.exit(1);
   }
   return content;

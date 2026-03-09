@@ -18,13 +18,11 @@ let values;
 try {
   ({ values } = parseArgs({ options }));
 } catch (error) {
-  console.error(`Error parsing arguments: ${error.message}`);
+  console.error(`Please, specify input file`);
   process.exit(1);
 }
 if (!values.input) {
-  console.error(
-    'Input file is required. Use -i or --input to specify the file.',
-  );
+  console.error('Please, specify input file');
   process.exit(1);
 }
 
