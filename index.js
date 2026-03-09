@@ -31,13 +31,20 @@ for (const line of data) {
   if (!line.trim()) continue;
   const obj = JSON.parse(line);
 
-  const withinPrice = parseFloat(obj.price) <= parseFloat(values.price);
+  const withinPrice = values.price
+    ? parseFloat(obj.price) <= parseFloat(values.price)
+    : true;
   const furnishedOk = values.furnished
     ? obj.furnishingstatus === 'furnished'
     : true;
 
   if (withinPrice && furnishedOk) {
-    filteredData.push(obj);
+    const pushedObj = JSON.stringify(obj)
+      .replace(/[{}"]/g, '')
+      .replace(/,/g, ', ');
+    console.log(`Hose: ${data.indexOf(line) + 1}`);
+    filteredData.push(pushedObj);
+    console.log(pushedObj);
   }
 }
 
