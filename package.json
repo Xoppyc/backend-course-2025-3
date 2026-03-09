@@ -1,0 +1,7 @@
+{
+  "name": "laba_3",
+  "type": "module",
+  "dependencies": {
+    "fs": "^0.0.1-security"
+  }
+}
